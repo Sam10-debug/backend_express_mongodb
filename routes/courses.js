@@ -1,30 +1,7 @@
 const express= require('express')
-const mongoose=require('mongoose')
-const Joi = require('joi');
 const route=express.Router()
-
-
-
+const {User,validate}=require("../models/courseModel")
 route.use(express.json());
-
-
-// Define the schema
-const userSchema = new mongoose.Schema({
-    course: {
-      type: String,
-      required: true
-    },
-    author: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
-      min: 0
-    }
-  });
-
-  const User = mongoose.model('User', userSchema);
 
 // CRUD
 route.get("/",async (req,res)=>{
@@ -79,15 +56,6 @@ route.delete("/:id",async (req,res)=>{
     res.send(deleteCourse)
 })
 
-function validate(x){
-    const schema = Joi.object({
-        course: Joi.string().min(3),
-        author: Joi.string(),
-        price: Joi.number()
-      });
-    
-      const { error } = schema.validate(x);
-    return error
-}
+
 module.exports=route
 
